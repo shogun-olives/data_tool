@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+<body>
+	<h1>
+		<input
+			id="project-name"
+			type="text"
+			value="{{ project_name }}"
+			class="project-name-input"
+		/>
+	</h1>
+	<div>
+		<button onclick="go_to_data()">Edit Data</button>
+	</div>
+	<div>
+		<button onclick="go_back()">Back</button>
+	</div>
+	<script
+		type="module"
+		src="{{ url_for('static', filename='js/project/home.js') }}"
+	></script>
+</body>
+{% endblock %}

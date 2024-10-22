@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block content %}
+<body>
+	<h1>Data Tool</h1>
+	{% for project in projects %}
+
+	<!-- make the icon really small-->
+	<div>
+		<img
+			src="{{ url_for('static', filename='images/trash.png') }}"
+			class="delete-icon"
+			width="20"
+			height="20"
+			onclick="project_delete('{{ project }}')"
+		/>
+		<a
+			href="{{ url_for('project_home', project_name = project) }}"
+			class="project-link"
+			>{{ project }}</a
+		>
+	</div>
+	{% endfor %}
+	<div>
+		<input
+			id="project-name"
+			type="text"
+			placeholder="new project"
+			class="project-name-input"
+		/>
+	</div>
+	<script
+		type="module"
+		src="{{ url_for('static', filename='js/project/select.js') }}"
+	></script>
+</body>
+{% endblock %}
