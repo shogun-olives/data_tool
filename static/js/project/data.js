@@ -150,6 +150,8 @@ function csv_to_server() {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ project: project_name, csv: csv_data }),
+	}).then(() => {
+		console.log("Data saved to server");
 	});
 }
 
@@ -167,6 +169,7 @@ function csv_download() {
 
 window.addEventListener("beforeunload", function (event) {
 	csv_to_server();
+	event.preventDefault();
 });
 
 // make functions globally accessible

@@ -61,7 +61,7 @@ def setup(project_name: str) -> bool:
         'images': {}
     }
 
-    data = "Column 1\n"
+    data = "Column 1"
 
     info_fn = os.path.join(project_dir, format_name(project_name, 'info.json'))
     data_fn = os.path.join(project_dir, format_name(project_name, 'data.csv'))
@@ -135,6 +135,7 @@ def delete(project_name: str) -> bool:
     
     return True
 
+
 def get_data(project_name):
     fn = os.path.join(config.DATA_DIR, project_name, format_name(project_name, 'data.csv'))
     with open(fn, 'r') as f:
@@ -142,4 +143,6 @@ def get_data(project_name):
     
     data = data.split('\n')
     data = [x.split(',') for x in data]
+    data += [[''] * len(data[0])]
+    print(data)
     return data
