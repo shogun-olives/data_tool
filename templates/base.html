@@ -6,12 +6,21 @@
 		<title>data tool</title>
 		<link
 			rel="stylesheet"
-			href="{{ url_for('static', filename='css/styles.css') }}"
+			href="{{ url_for('static', filename=stylesheet) }}"
 		/>
 		<link
 			rel="icon"
-			href="{{ url_for('static', filename='images/tables.png') }}"
+			href="{{ url_for('static', filename='./images/tables.png') }}"
 		/>
 	</head>
-	{% block content %}{% endblock %}
+	<body>
+		<div class="content-container">
+			{% block content %}{% endblock %}
+			<script
+				type="module"
+				src="{{ url_for('static', filename=script) }}"
+			></script>
+		</div>
+		{% include './calculator/calculator.html' %}
+	</body>
 </html>

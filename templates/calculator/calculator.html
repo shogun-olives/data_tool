@@ -1,0 +1,28 @@
+<div class="{{ calculator_status }}" id="calculator-container">
+	<div class="calculator-bar">
+		<img
+			src="{{ url_for('static', filename='./images/calculator.png') }}"
+			class="calculator-toggle"
+			width="35"
+			height="35"
+			onclick="calculator_toggle()"
+		/>
+	</div>
+	<div id="calculator" class="calculator">
+		{% for row in calculator_data %}
+		<div class="calculator-row">
+			<input
+				type="text"
+				class="calculator-input"
+				placeholder="calculate"
+				value="{{ row }}"
+			/>
+			<p class="calculator-output"></p>
+		</div>
+		{% endfor %}
+	</div>
+	<script
+		type="module"
+		src="{{ url_for('static', filename='./js/calculator/calculator.js') }}"
+	></script>
+</div>

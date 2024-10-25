@@ -1,18 +1,40 @@
+// TODO holy spagetti code
+
+import { load_calc } from "../calculator/calculator.js";
 import {
 	go_back,
 	get_project_name,
 	project_name_listener_update,
 } from "../util.js";
+import { go_to_graph } from "./home.js";
 import { config } from "../config.js";
 
+let updated = false;
+
 // Creates a new input
-function input_create() {
+function input_create(col_idx, row_idx) {
+	let container = document.createElement("div");
+	container.className = "cell-content";
+
 	let input = document.createElement("input");
 	input.type = "text";
 	input.className = "table-input-cell";
 	input.oninput = table_input_listener_update;
 	input.onkeydown = table_input_listener_keydown;
-	return input;
+
+	if (row_idx === 0) {
+		let delete_icon = document.createElement("img");
+		delete_icon.src = "/static/images/trash.png";
+		delete_icon.class = "icon";
+		delete_icon.width = "20";
+		delete_icon.height = "20";
+		delete_icon.onclick = column_delete;
+		container.appendChild(delete_icon);
+		input.value = `Column ${col_idx}`;
+	}
+
+	container.appendChild(input);
+	return container;
 }
 
 // Find next open cell in the table
@@ -31,8 +53,8 @@ function next_cell(row_idx, col_idx, table) {
 function table_input_listener_keydown(event) {
 	let table = document.getElementById(config.tableID);
 	let input = event.target;
-	let row_idx = input.parentElement.parentElement.rowIndex;
-	let col_idx = input.parentElement.cellIndex;
+	let row_idx = input.parentElement.parentElement.parentElement.rowIndex;
+	let col_idx = input.parentElement.parentElement.cellIndex;
 
 	// Handle button navigation, except for Enter
 	let buttons = {
@@ -70,6 +92,7 @@ function table_input_listener_update() {
 		.getElementsByTagName("tbody")[0];
 	let lastRow = table.rows[table.rows.length - 1]; // Get the last row
 	let inputs = lastRow.getElementsByTagName("input");
+	updated = true;
 
 	for (let input of inputs) {
 		if (input.value.trim() != "") {
@@ -94,6 +117,7 @@ function add_row() {
 		let input = input_create();
 		new_cell.appendChild(input);
 	}
+	updated = true;
 }
 
 // Create a new column
@@ -104,12 +128,27 @@ function add_column() {
 	// Add a new cell to each row
 	for (let i = 0; i < rows.length; i++) {
 		let new_cell = rows[i].insertCell();
-		let input = input_create();
-		if (i === 0) {
-			input.value = `Column ${rows[0].cells.length - 1}`;
-		}
+		let input = input_create(rows[0].cells.length - 1, i);
 		new_cell.appendChild(input);
 	}
+	updated = true;
+}
+
+function column_delete(event) {
+	let table = document.getElementById("table");
+	let col_idx = event.target.parentElement.parentElement.cellIndex;
+	console.log(col_idx);
+	let rows = table.rows;
+
+	// Delete the column
+	for (let i = 0; i < rows.length; i++) {
+		rows[i].deleteCell(col_idx);
+	}
+
+	if (rows[0].cells.length === 1) {
+		add_column();
+	}
+	updated = true;
 }
 
 // Helper function to get the input at a specific row and column
@@ -142,6 +181,7 @@ function csv_from_table() {
 }
 
 function csv_to_server() {
+	updated = false;
 	let csv_data = csv_from_table();
 	let project_name = get_project_name();
 	fetch(`/project/${project_name}/save_data`, {
@@ -150,8 +190,6 @@ function csv_to_server() {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ project: project_name, csv: csv_data }),
-	}).then(() => {
-		console.log("Data saved to server");
 	});
 }
 
@@ -168,21 +206,34 @@ function csv_download() {
 }
 
 window.addEventListener("beforeunload", function (event) {
-	csv_to_server();
-	event.preventDefault();
+	if (updated) {
+		csv_to_server();
+		event.preventDefault();
+	}
 });
+
+// Uploads to server every 2 seconds
+setInterval(() => {
+	if (updated) {
+		csv_to_server();
+	}
+}, 1000);
 
 // make functions globally accessible
 window.add_column = add_column;
 window.add_row = add_row;
 window.csv_download = csv_download;
 window.go_back = go_back;
+window.column_delete = column_delete;
+window.go_to_graph = go_to_graph;
 
 // Add event listener to the initial inputs
 window.onload = function () {
+	load_calc();
 	// Update project name box
 	let project_name_input = document.getElementById(config.projectID);
 	project_name_input.onkeydown = project_name_listener_update;
+	updated = false;
 
 	// Update table inputs
 	// get all inputs with the following class table-input-cell
@@ -190,5 +241,10 @@ window.onload = function () {
 	for (let i = 0; i < initial_inputs.length; i++) {
 		initial_inputs[i].oninput = table_input_listener_update;
 		initial_inputs[i].onkeydown = table_input_listener_keydown;
+	}
+
+	let initial_columns = document.getElementsByClassName("delete-icon");
+	for (let i = 0; i < initial_columns.length; i++) {
+		initial_columns[i].onclick = column_delete;
 	}
 };

@@ -1,100 +1,62 @@
+@import "./variables.css";
+
 body {
 	font-family: Arial, sans-serif;
 	font-size: 16px;
-	color: #121212;
-	background-color: transparent;
-	border: none;
-	padding-top: 1%;
-	padding-left: 3%;
+	color: var(--text-color);
+	padding: 30px 40px 30px 40px;
+	display: flex;
 }
 
 * {
 	font-family: inherit;
-	font-size: inherit;
 	color: inherit;
-	background-color: inherit;
-}
-
-h1 {
-	font-size: 35px;
-	font-weight: bold;
-	margin-bottom: 10px;
-}
-
-table {
-	margin-top: 20px;
-	border-collapse: collapse;
+	background-color: transparent;
+	border: none;
+	margin: 0;
+	padding: 0;
 }
 
 button {
 	cursor: pointer;
 	border-width: 1px;
 	padding: 5px 10px;
-	margin: 5px;
-}
-
-table,
-th,
-td {
-	font-weight: normal;
-	border: 1px solid black;
-	padding: 8px;
-}
-
-.table-container {
-	display: flex;
-	align-items: flex-start;
-}
-
-.add-col-button {
-	border: none;
-	margin-left: 10px;
-	margin-top: 23px;
-	padding: 5px 10px;
-	font-size: 25px;
-	cursor: pointer;
-	height: fit-content;
-}
-
-.add-row-button {
-	border: none;
-	margin-left: 4px;
+	border: 1px solid var(--primary);
 	margin-top: 10px;
-	padding: 5px 10px;
-	font-size: 25px;
-	cursor: pointer;
-	height: fit-content;
 }
 
-.project-link {
-	text-decoration: none;
-	padding: 3px;
-	font-size: 30px;
+input {
+	border-bottom: 2px solid var(--primary);
+	margin: 10px inherit 10px inherit;
 }
 
-.table-input-cell {
-	background: transparent;
-	border: none;
-	width: 95%;
-	padding: 5px;
+input:focus {
+	outline: none;
+}
+
+select {
+	border-radius: 0;
+	text-align: right;
+}
+
+h1 {
+	font-size: 35px;
+	font-weight: bold;
 }
 
 .project-name-input {
 	font-size: 25px;
 	font-weight: normal;
-	margin-top: 10px;
-	border: none;
-	border-bottom: 2px solid #121212;
-	margin-bottom: 10px;
 	display: block;
+	width: 300px;
 }
 
-.project-name-input:focus {
-	border: none;
-	border-bottom: 2px solid #121212;
-	outline: none;
-}
-
-.delete-icon {
+.delete-icon,
+.icon {
 	cursor: pointer;
+}
+
+.main-body {
+	margin-top: 20px;
+	margin-bottom: 20px;
 }

@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block content %}
+<h1>
+	<input
+		id="project-name"
+		type="text"
+		value="{{ project_name }}"
+		class="project-name-input"
+	/>
+</h1>
+<div class="main-body">
+	<div class="option">
+		<p>title</p>
+		<input type="text" id="title" />
+	</div>
+	<div class="option">
+		<p>x axis</p>
+		<select name="x-axis" id="x-axis">
+			<option value=""></option>
+			{% for column in columns %}
+			<option value="{{ column }}">{{ column }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="option">
+		<p>y axis</p>
+		<select name="y-axis" id="y-axis">
+			<option value=""></option>
+			{% for column in columns %}
+			<option value="{{ column }}">{{ column }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="option">
+		<p>type</p>
+		<select name="type" id="type">
+			<option value=""></option>
+			{% for type, val in types.items() %}
+			<option value="{{ val }}">{{ type }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="option">
+		<p>regression</p>
+		<select name="regression" id="regression">
+			<option value=""></option>
+			{% for regression in regressions %}
+			<option value="{{ regression }}">{{ regression }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="main-body">
+		<img id="graph" src="{{ graph }}" width="1024" height="576" />
+	</div>
+	<div>
+		<button onclick="save_graph()">Save</button>
+	</div>
+	<div>
+		<button onclick="go_back()">Back</button>
+	</div>
+	{% endblock %}
+</div>

@@ -1,46 +1,53 @@
 {% extends 'base.html' %} {% block content %}
-<body>
-	<h1>
-		<input
-			id="project-name"
-			type="text"
-			value="{{ project_name }}"
-			class="project-name-input"
-		/>
-	</h1>
-	<div>
-		<button onclick="add_row()">Add Row</button>
-		<button onclick="add_column()">Add Column</button>
-		<button onclick="csv_download()">Download Table</button>
-	</div>
-	<div class="table-container">
-		<table id="table">
-			<tbody>
-				{% for i, row in data %}
-				<tr>
-					<td>{{ "row" if i == 0 else i }}</td>
-					{% for cell in row %}
-					<td>
+<h1>
+	<input
+		id="project-name"
+		type="text"
+		value="{{ project_name }}"
+		class="project-name-input"
+	/>
+</h1>
+<div>
+	<button onclick="go_to_graph()">Graph</button>
+	<button onclick="csv_download()">Download Table</button>
+</div>
+<div class="table-container">
+	<table id="table">
+		<tbody>
+			{% for i, row in data %}
+			<tr>
+				<td>{{ "row" if i == 0 else i }}</td>
+				{% for cell in row %}
+				<td>
+					<div class="cell-content">
+						{% if i == 0 %}
+						<img
+							src="{{ url_for('static', filename='images/trash.png') }}"
+							class="delete-icon"
+							width="20"
+							height="20"
+						/>
+						{% endif %}
 						<input
 							type="text"
 							value="{{ cell }}"
 							class="table-input-cell"
 						/>
-					</td>
-					{% endfor %} {% endfor %}
-				</tr>
-			</tbody>
-		</table>
-		<button class="add-col-button" onclick="add_column()">+</button>
-	</div>
-	<button class="add-row-button" onclick="add_row()">+</button>
-	<div>
-		<button onclick="go_back()">Back</button>
-	</div>
+					</div>
+				</td>
+				{% endfor %} {% endfor %}
+			</tr>
+		</tbody>
+	</table>
+	<button class="add-col-button" onclick="add_column()">+</button>
+</div>
+<button class="add-row-button" onclick="add_row()">+</button>
+<div>
+	<button onclick="go_back()">Back</button>
+</div>
 
-	<script
-		type="module"
-		src="{{ url_for('static', filename='js/project/data.js') }}"
-	></script>
-</body>
+<script
+	type="module"
+	src="{{ url_for('static', filename='js/project/data.js') }}"
+></script>
 {% endblock %}

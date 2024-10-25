@@ -1,0 +1,57 @@
+@import "../styles.css";
+
+.calculator-container {
+	display: flex;
+	align-items: space-between;
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 400px;
+	height: 100%;
+	background-color: var(--secondary);
+	box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+	overflow-y: auto;
+	transition: width 0.3s ease;
+}
+
+.calculator-bar {
+	padding-top: 10px;
+	width: 50px;
+	display: flex;
+	justify-content: center;
+}
+
+.calculator-container.collapsed {
+	width: 50px;
+}
+
+.calculator-container.collapsed .calculator {
+	display: none;
+}
+
+.calculator {
+	padding: 40px 20px 20px 10px;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.calculator-row {
+	border: none;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.calculator-input {
+	font-size: 20px;
+	width: 100%;
+	height: 30px;
+}
+
+.calculator-output {
+	font-size: 20px;
+	width: 100%;
+	height: 30px;
+	text-align: right;
+}

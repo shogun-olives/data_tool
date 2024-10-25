@@ -1,0 +1,50 @@
+@import "../calculator/calculator.css";
+
+table {
+	margin-top: 20px;
+	border-collapse: collapse;
+}
+
+td {
+	font-weight: normal;
+	border: 1px solid black;
+	padding: 8px;
+}
+
+.table-container {
+	display: flex;
+	align-items: flex-start;
+	overflow-x: auto;
+}
+
+.cell-content {
+	display: flex;
+	align-items: left;
+}
+
+.add-col-button {
+	border: none;
+	margin-left: 10px;
+	margin-top: 23px;
+	padding: 5px 10px;
+	font-size: 25px;
+	cursor: pointer;
+	height: fit-content;
+}
+
+.add-row-button {
+	border: none;
+	margin-left: 4px;
+	margin-top: 10px;
+	padding: 5px 10px;
+	font-size: 25px;
+	cursor: pointer;
+	height: fit-content;
+}
+
+.table-input-cell {
+	background: transparent;
+	border: none;
+	width: 95%;
+	padding: 5px;
+}

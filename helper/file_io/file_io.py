@@ -9,6 +9,9 @@ def format_name(*args: str) -> str:
     return "_".join(x.lower().replace(" ", "_") for x in args)
 
 
+def get_data_fn(project_name: str) -> str:
+    return os.path.join(config.DATA_DIR, project_name, format_name(project_name, 'data.csv'))
+
 def get_projects():
     if not os.path.exists(config.DATA_DIR):
         return []
@@ -63,8 +66,8 @@ def setup(project_name: str) -> bool:
 
     data = "Column 1"
 
-    info_fn = os.path.join(project_dir, format_name(project_name, 'info.json'))
-    data_fn = os.path.join(project_dir, format_name(project_name, 'data.csv'))
+    info_fn = os.path.join(project_dir, 'info.json')
+    data_fn = get_data_fn(project_name)
     save_json(info_fn, info)
     save_csv_helper(data_fn, data)
     
@@ -81,7 +84,7 @@ def save_csv(project_name: str, data: str) -> bool:
         return False
     
     # save data to csv
-    fn = os.path.join(config.DATA_DIR, project_name, format_name(project_name, 'data.csv'))
+    fn = get_data_fn(project_name)
     save_csv_helper(fn, data)
     
     return True
@@ -106,16 +109,15 @@ def rename(old_project_name: str, new_project_name: str) -> bool:
     shutil.move(old_project_dir, new_project_dir)
 
     # update info.json
-    info_fn = os.path.join(new_project_dir, format_name(old_project_name, 'info.json'))
+    info_fn = os.path.join(new_project_dir, 'info.json')
     info = json.load(open(info_fn))
     info['project_name'] = new_project_name
     info['data'] = format_name(new_project_name, 'data.csv')
     save_json(info_fn, info)
-    shutil.move(info_fn, os.path.join(new_project_dir, format_name(new_project_name, 'info.json')))
 
     # update data.csv
-    old_data_fn = os.path.join(new_project_dir, format_name(old_project_name, 'data.csv'))
-    data_fn = os.path.join(new_project_dir, format_name(new_project_name, 'data.csv'))
+    old_data_fn = get_data_fn(old_project_name)
+    data_fn = get_data_fn(new_project_name)
     shutil.move(old_data_fn, data_fn)
 
     return True
@@ -131,18 +133,21 @@ def delete(project_name: str) -> bool:
     # delete project directory
     project_dir = os.path.join(config.DATA_DIR, project_name)
     deleted_dir = os.path.join(config.DELETED_DIR, project_name)
+    
+    if os.path.exists(deleted_dir):
+        shutil.rmtree(deleted_dir)
+
     shutil.move(project_dir, deleted_dir)
     
     return True
 
 
 def get_data(project_name):
-    fn = os.path.join(config.DATA_DIR, project_name, format_name(project_name, 'data.csv'))
+    fn = get_data_fn(project_name)
     with open(fn, 'r') as f:
         data = f.read()
     
     data = data.split('\n')
     data = [x.split(',') for x in data]
     data += [[''] * len(data[0])]
-    print(data)
     return data

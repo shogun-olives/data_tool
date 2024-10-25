@@ -1,3 +1,4 @@
+import { load_calc } from "../calculator/calculator.js";
 import { get_project_name } from "../util.js";
 import { config } from "../config.js";
 
@@ -39,6 +40,7 @@ window.project_delete = project_delete;
 
 // Add event listener to new project
 window.onload = function () {
+	load_calc();
 	let new_project_input = document.getElementById(config.projectID);
 	new_project_input.onkeydown = new_project_listener_update;
 };
