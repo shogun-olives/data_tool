@@ -11,7 +11,7 @@ function go_to_data() {
 	location.href = `/project/${project_name}/data`;
 }
 
-function go_to_graph() {
+export function go_to_graph() {
 	let project_name = get_project_name();
 	location.href = `/project/${project_name}/graph`;
 }
